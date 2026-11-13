@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>logpipe · 实时日志看板</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<header>
+  <h1>logpipe</h1>
+  <p class="tagline">TCP 日志采集 · 有界队列 · 按大小轮转</p>
+  <span id="status" class="status">连接中…</span>
+</header>
+
+<main>
+  <section class="cards">
+    <div class="card"><span class="label">接收记录</span><span class="value" id="m-records">0</span></div>
+    <div class="card"><span class="label">写入字节</span><span class="value" id="m-written">0</span></div>
+    <div class="card"><span class="label">丢弃（队列满）</span><span class="value" id="m-dropped">0</span></div>
+    <div class="card"><span class="label">轮转次数</span><span class="value" id="m-rotations">0</span></div>
+    <div class="card"><span class="label">当前连接</span><span class="value" id="m-conns">0</span></div>
+    <div class="card"><span class="label">队列深度</span><span class="value" id="m-queue">0</span></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>实时统计</h2>
+      <code id="sink">sink: -</code>
+    </div>
+    <div class="bar"><div class="bar-fill" id="queue-bar"></div></div>
+    <p class="hint">队列接近容量时开始丢弃，说明消费速度跟不上；此时应加大 <code>--threads</code> 或换更快的磁盘。</p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>最近 50 行</h2>
+      <button id="pause">暂停</button>
+    </div>
+    <pre id="tail" class="tail">暂无数据</pre>
+  </section>
+</main>
+
+<footer>
+  <span>API: <code>/api/stats</code> · <code>/api/tail?n=50</code></span>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>

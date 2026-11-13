@@ -1,0 +1,7 @@
+build/
+build_win/
+logs/
+*.log
+*.log.[0-9]*
+.DS_Store
+.vs/
